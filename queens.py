@@ -64,14 +64,20 @@ class QueensState:
     def __init__(self, rows: int, columns: int):
         """Initializes the chessboard to have the given numbers of rows and columns,
         with no queens occupying any of its cells."""
-        pass
+        board = []
+
+        while len(board) != columns:
+            board_row = []
+            for i in range(0, rows + 1):
+                board_row.append(i)
+            board.append(board_row)
+
+        print(board)
 
 
     def queen_count(self) -> int:
         """Returns the number of queens on the chessboard."""
-        pass
-
-
+        return 0
     def queens(self) -> list[Position]:
         """Returns a list of the positions in which queens appear on the chessboard,
         arranged in no particular order."""
@@ -94,7 +100,7 @@ class QueensState:
         """Builds a new QueensState with queens added in the given positions.
         Raises a DuplicateQueenException when there is already a queen in at
         least one of the given positions."""
-        pass
+
 
 
     def with_queens_removed(self, positions: list[Position]) -> 'QueensState':
