@@ -65,23 +65,37 @@ class QueensState:
         """Initializes the chessboard to have the given numbers of rows and columns,
         with no queens occupying any of its cells."""
         board = []
+        self.board = board
+        self.rows = rows
+        self.columns = columns
 
-        while len(board) != columns:
-            board_row = []
-            for i in range(0, rows + 1):
-                board_row.append(i)
-            board.append(board_row)
-
-        print(board)
+        for i in range(columns):
+            empty_row = []
+            for j in range(rows):
+                empty_row.append(j)
+            board.append(empty_row)
 
 
     def queen_count(self) -> int:
         """Returns the number of queens on the chessboard."""
-        return 0
+        count = 0
+        for i in self.board:
+            for j in i:
+                if j == 'Q':
+                    count += 1
+        return count
     def queens(self) -> list[Position]:
         """Returns a list of the positions in which queens appear on the chessboard,
         arranged in no particular order."""
-        pass
+        position_list = []
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j] == "Q":
+                    p = Position(i,j)
+                    position_list.append(p)
+
+        return position_list
+
 
 
     def has_queen(self, position: Position) -> bool:
@@ -101,8 +115,11 @@ class QueensState:
         Raises a DuplicateQueenException when there is already a queen in at
         least one of the given positions."""
 
-
-
+        if type(positions) == list:
+            for i in positions:
+                self.board[i.row][i.column] = 'Q'
+        else:
+            self.board[positions.row][positions.column] = 'Q'
     def with_queens_removed(self, positions: list[Position]) -> 'QueensState':
         """Builds a new QueensState with queens removed from the given positions.
         Raises a MissingQueenException when there is no queen in at least one of
