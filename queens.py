@@ -72,7 +72,7 @@ class QueensState:
         for i in range(columns):
             empty_row = []
             for j in range(rows):
-                empty_row.append(j)
+                empty_row.append(0)
             board.append(empty_row)
 
 
@@ -88,12 +88,12 @@ class QueensState:
         """Returns a list of the positions in which queens appear on the chessboard,
         arranged in no particular order."""
         position_list = []
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                if self.board[i][j] == "Q":
-                    p = Position(i,j)
-                    position_list.append(p)
+        for column in range(0,len(self.board)):
+            for row in range(0,len(self.board)):
+                if self.board[row][column] == 'Q':
+                    position_list.append(Position(row,column))
 
+        print(position_list)
         return position_list
 
 
@@ -101,7 +101,10 @@ class QueensState:
     def has_queen(self, position: Position) -> bool:
         """Returns True if a queen occupies the given position on the chessboard, or
         False otherwise."""
-        pass
+        if self.board[position.row][position.column] == 'Q':
+            return True
+        else:
+            return False
 
 
     def any_queens_unsafe(self) -> bool:
@@ -109,19 +112,22 @@ class QueensState:
         be captured by at least one other queen on the chessboard), or False otherwise."""
         pass
 
-
     def with_queens_added(self, positions: list[Position]) -> 'QueensState':
         """Builds a new QueensState with queens added in the given positions.
         Raises a DuplicateQueenException when there is already a queen in at
         least one of the given positions."""
 
-        if type(positions) == list:
-            for i in positions:
-                self.board[i.row][i.column] = 'Q'
-        else:
-            self.board[positions.row][positions.column] = 'Q'
+        S = QueensState(8,8)
+        for i in positions:
+            S.board[i.row][i.column] = 'Q'
+        return S
+
     def with_queens_removed(self, positions: list[Position]) -> 'QueensState':
         """Builds a new QueensState with queens removed from the given positions.
         Raises a MissingQueenException when there is no queen in at least one of
         the given positions."""
-        pass
+        for i in positions:
+            if self.board[i.row][i.column] == 'Q':
+                self.board[i.row][i.column] = 0
+            else:
+                raise MissingQueenError(Position(i.row,i.column))
